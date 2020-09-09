@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Hope India</string>
-    <string name="enter_id">Enter Email-Id</string>
+    <string name="enter_id">Enter User-id or Mobile No.</string>
     <string name="enter_pass">Enter Password</string>
     <string name="enter_name">Enter Name</string>
     <string name="enter_no">Enter Number</string>

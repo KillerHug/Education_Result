@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<group >
+    <item android:id="@+id/action_search"
+        android:title="Profile update" />
+    <item android:id="@+id/action_settings"
+        android:title="change password"
+        />
+    <item android:id="@+id/action_navigation"
+        android:title="Logout"
+        />
+</group>
+</menu>

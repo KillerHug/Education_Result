@@ -6,143 +6,158 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     android:orientation="vertical"
-    tools:context=".Sign">
+    tools:context=".SignUP">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="20dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="Sign Up"
-            android:textColor="@color/colorBlue"
-            android:textSize="30sp" />
+        android:layout_height="match_parent"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/signMobile"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo" />
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/border_design"
-                android:drawableStart="@drawable/phone_focus"
-                android:drawablePadding="10dp"
-                android:focusable="true"
-                android:hint="@string/enter_no"
-                android:inputType="number"
-                android:padding="10dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:text="Sign Up"
                 android:textColor="@color/colorBlue"
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/sign_referral"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/border_design"
-                android:drawableStart="@drawable/phone_focus"
-                android:drawablePadding="10dp"
-                android:focusable="true"
-                android:hint="@string/enter_referral"
-                android:inputType="number"
-                android:padding="10dp"
-                android:textColor="@color/colorBlue"
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/signName"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/border_design"
-                android:drawableStart="@drawable/email_focus"
-                android:drawablePadding="10dp"
-                android:focusable="true"
-                android:hint="@string/enter_name"
-                android:inputType="text"
-                android:padding="10dp"
-                android:textColor="@color/colorBlue"
+                android:textSize="30sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:id="@+id/errorMessage"
+                android:gravity="left"
+                android:text="Some Error Occured"
+                android:textColor="@color/colorRed"
+                android:visibility="gone"
                 android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:gravity="center_vertical">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Gender "
-    android:textColor="@color/colorBlue"
-    android:gravity="center_vertical"
-    android:textSize="20sp"/>
-                <RadioGroup
-                    android:id="@+id/sign_gender"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/signUpName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/border_design"
+                    android:drawableStart="@drawable/email_focus"
+                    android:drawablePadding="10dp"
+                    android:focusable="true"
+                    android:hint="@string/enter_name"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/signUp_Mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/border_design"
+                    android:drawableStart="@drawable/phone_focus"
+                    android:drawablePadding="10dp"
+                    android:focusable="true"
+                    android:hint="@string/enter_no"
+                    android:inputType="number"
+                    android:padding="10dp"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="15sp" />
+                <EditText
+                    android:id="@+id/signUp_referral"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/border_design"
+                    android:drawableStart="@drawable/filter_focus"
+                    android:drawablePadding="10dp"
+                    android:focusable="true"
+                    android:hint="@string/enter_referral"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
-
-                    <RadioButton
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:text="Male"
+                        android:gravity="center_vertical"
+                        android:text="Gender "
+                        android:textColor="@color/colorBlue"
                         android:textSize="20sp" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
+                    <RadioGroup
+                        android:id="@+id/signUp_gender"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="false"
                         android:gravity="center"
-                        android:text="Female"
-                        android:padding="10dp"
-                        android:textSize="20sp" />
-                </RadioGroup>
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/male"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="Male"
+                            android:textSize="20sp" />
+
+                        <RadioButton
+                            android:id="@+id/female"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="Female"
+                            android:textSize="20sp" />
+                    </RadioGroup>
+
+                </LinearLayout>
+                <Button
+                    android:id="@+id/signup_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button"
+                    android:text="Sign Up"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/goto_signin"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button_gray"
+                    android:text="Already User? Sign In"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorOrange"
+                    android:textSize="20sp" />
             </LinearLayout>
-            <Button
-                android:id="@+id/signup_data"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/button"
-                android:text="Sign Up"
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp" />
-
-            <Button
-                android:id="@+id/goto_signin"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/button_gray"
-                android:text="Go to Sign In"
-                android:textAllCaps="false"
-                android:textColor="@color/colorBlue"
-                android:textSize="20sp" />
         </LinearLayout>
-
-
-    </LinearLayout>
+    </ScrollView>
 </LinearLayout>
