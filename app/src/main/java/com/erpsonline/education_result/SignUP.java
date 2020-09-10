@@ -87,6 +87,11 @@ public class SignUP extends AppCompatActivity {
             Toast.makeText(this, "No Lowercase Letter Allowed", Toast.LENGTH_SHORT).show();
             return false;
         }
+        else if (checkString.length() > 6) {
+            Toast.makeText(this, "Referral Code is greater than 6 digit", Toast.LENGTH_SHORT).show();
+            txtReferral.setBackgroundResource(R.drawable.edit_error);
+            return false;
+        }
         return true;
     }
     public boolean checkName() {
@@ -142,6 +147,7 @@ public class SignUP extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.e("Res", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     String status = jsonObject.getString("success");
@@ -153,7 +159,7 @@ public class SignUP extends AppCompatActivity {
                         txtReferral.setBackgroundResource(R.drawable.border_design);
                         txtMobile.setBackgroundResource(R.drawable.border_design);
                         Intent intent = new Intent(SignUP.this, SignIn.class);
-                        SharedPreferences sharedPreferences=getSharedPreferences("MY Success",MODE_PRIVATE);
+                        SharedPreferences sharedPreferences=getSharedPreferences("MSG",MODE_PRIVATE);
                         SharedPreferences.Editor editor=sharedPreferences.edit();
                         editor.putString("pass_success","pass_success");
                         editor.commit();

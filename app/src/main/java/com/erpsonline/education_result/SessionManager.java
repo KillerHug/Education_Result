@@ -1,12 +1,14 @@
 package com.erpsonline.education_result;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 public class SessionManager {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String SHARED_NAME="session";
+    Context context;
     public  SessionManager(Context context)
     {
         sharedPreferences=context.getSharedPreferences(SHARED_NAME,Context.MODE_PRIVATE);
@@ -14,7 +16,7 @@ public class SessionManager {
     }
     public void saveSession(User user)
     {
-        editor.putString("USER_NAME",user.getUser_id());
+        editor.putString("USER_NAME",user.getUser_name());
         editor.commit();
     }
     public void setLogin(boolean login)
@@ -26,13 +28,14 @@ public class SessionManager {
     {
         return sharedPreferences.getBoolean("KEY_VALUE",false);
     }
-    public String getUserID()
+    public String getUsername()
     {
         return sharedPreferences.getString("USER_NAME",null);
     }
     public void removeSession()
     {
         editor.putString("USER_NAME","");
+        editor.clear();
         editor.commit();
     }
 }

@@ -35,25 +35,27 @@ import java.util.Map;
 public class SignIn extends AppCompatActivity {
     Button btnSignUp, btnSignIn;
     EditText txtId, txtPass;
-    ConstraintLayout msgLayout;
     TextView msg;
     String strUser, strPass;
     SessionManager sessionManager;
     User user;
-
+ConstraintLayout msgLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        msgLayout = (ConstraintLayout) findViewById(R.id.successMSG);
         btnSignUp = (Button) findViewById(R.id.goto_signup);
         btnSignIn = (Button) findViewById(R.id.signin_data);
         txtId = (EditText) findViewById(R.id.signId);
         txtPass = (EditText) findViewById(R.id.signPass);
         msg = (TextView) findViewById(R.id.errorMessage);
-        SharedPreferences sharedPreferences = getSharedPreferences("MY Success", MODE_PRIVATE);
+        msgLayout=(ConstraintLayout)findViewById(R.id.successMSG);
+        SharedPreferences sharedPreferences = getSharedPreferences("MSG", MODE_PRIVATE);
         String msg = sharedPreferences.getString("pass_success", null);
         if (msg != null) {
+            SharedPreferences.Editor editor=sharedPreferences.edit();
+            editor.clear();
+            editor.commit();
             msgLayout.setVisibility(View.VISIBLE);
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -61,6 +63,7 @@ public class SignIn extends AppCompatActivity {
                     msgLayout.setVisibility(View.GONE);
                 }
             }, 3000);
+
         }
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,38 +95,30 @@ public class SignIn extends AppCompatActivity {
         strUser = txtId.getText().toString().trim();
         strPass = txtPass.getText().toString().trim();
         String url = "http://hopeindia.biz/app/student.php";
-        final String[] temp = {null};
+        final String[] status = new String[1];
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.e("Response",response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    JSONArray jsonArray = jsonObject.getJSONArray("info");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                        String status = jsonObject1.getString("success");
-                        //String status=temp[0].toString();
-                        if (status.equals("verify")) {
-                            String id = jsonObject1.getString("user_name");
-                            Log.e("User Id", id);
-                            sessionManager = new SessionManager(SignIn.this);
-                            user=new User(id);
-                            sessionManager.saveSession(user);
-                            sessionManager.setLogin(true);
-                            Intent intent = new Intent(SignIn.this, Fragment_container.class);
-                            startActivity(intent);
-                        } else if (status.equals("noMatchPass")) {
-                            Log.e("Message", "Password not matched");
-                            msg.setVisibility(View.VISIBLE);
-                            msg.setText("Password not matched");
-                        } else if (status.equals("noMatchId")) {
-                            Log.e("Message", "ID or Mobile no. not matched");
-                            msg.setVisibility(View.VISIBLE);
-                            msg.setText("ID or Mobile no. not matched");
-                        } else {
-                            blankField();
-                            Log.e("Message", "Not Login");
-                        }
+                    String status = jsonObject.getString("success");
+                    if (status.equals("verify")) {
+                        sessionManager = new SessionManager(SignIn.this);
+                        user=new User(strUser);
+                        user.setUser_name(strUser);
+                        sessionManager.saveSession(user);
+                        sessionManager.setLogin(true);
+                        Intent intent = new Intent(SignIn.this, Fragment_container.class);
+                        startActivity(intent);
+                    } else if (status.equals("noMatch")) {
+                        Log.e("Message", "Username or Password not matched");
+                        msg.setVisibility(View.VISIBLE);
+                        msg.setText("Username or Password not matched");
+                    }
+                    else {
+                        blankField();
+                        Log.e("Message", "Not Login");
                     }
                 } catch (JSONException e) {
                     Log.e("Message", e.getMessage());
@@ -139,8 +134,8 @@ public class SignIn extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> param = new HashMap<String, String>();
                 param.put("action", "signin");
-                param.put("id", strUser);
-                param.put("pass", strPass);
+                param.put("user_name", strUser);
+                param.put("password", strPass);
                 return param;
             }
         };

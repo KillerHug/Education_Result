@@ -88,7 +88,8 @@
                     android:drawablePadding="10dp"
                     android:focusable="true"
                     android:hint="@string/enter_referral"
-                    android:inputType="text"
+                    android:inputType="textCapCharacters"
+                    android:textAllCaps="true"
                     android:padding="10dp"
                     android:textColor="@color/colorBlue"
                     android:textSize="15sp" />

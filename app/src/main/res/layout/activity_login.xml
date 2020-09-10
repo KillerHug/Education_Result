@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginBottom="10dp"
-                android:text="Your Account successfull Created"
+                android:text="Your Account successfully created"
                 android:textColor="#08804c"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -91,7 +91,10 @@
                 android:padding="10dp"
                 android:textColor="@color/colorBlue"
                 android:textSize="15sp" />
-
+<com.google.android.material.textfield.TextInputLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:passwordToggleEnabled="true">
             <EditText
                 android:id="@+id/signPass"
                 android:layout_width="match_parent"
@@ -104,8 +107,10 @@
                 android:hint="@string/enter_pass"
                 android:inputType="textPassword"
                 android:padding="10dp"
+                app:passwordToggleEnabled="true"
                 android:textColor="@color/colorBlue"
                 android:textSize="15sp" />
+</com.google.android.material.textfield.TextInputLayout>
             <Button
                 android:id="@+id/signin_data"
                 android:layout_width="match_parent"

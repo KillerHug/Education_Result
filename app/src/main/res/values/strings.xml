@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">Hope India</string>
-    <string name="enter_id">Enter User-id or Mobile No.</string>
+    <string name="enter_id">Enter User Id or Mobile No.</string>
     <string name="enter_pass">Enter Password</string>
+    <string name="old_pass">Enter Old Password</string>
+    <string name="new_pass">Enter New Password</string>
+    <string name="confirm_pass">Enter Confirm Password</string>
     <string name="enter_name">Enter Name</string>
-    <string name="enter_no">Enter Number</string>
+    <string name="enter_no">Enter Mobile No.</string>
     <string name="enter_referral">Enter Referral Code</string>
 </resources>

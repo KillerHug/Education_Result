@@ -6,30 +6,18 @@
     android:orientation="horizontal"
     android:background="@drawable/banner1">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:gravity="bottom"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:padding="20dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/user_logo"
-            android:gravity="end|bottom"
-            android:text="Name(User Name)"
-            android:id="@+id/user_name"
-            android:layout_alignParentBottom="true"
-            android:textColor="@color/colorGray"
-            android:textSize="20sp" />
-
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/user_logo"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:fitsSystemWindows="true"
+            android:gravity="center_horizontal|center_vertical"
             android:scaleType="centerCrop"
             android:src="@drawable/logo_boy"
             app:civ_border="true"
@@ -38,5 +26,14 @@
             app:civ_shadow="true"
             app:civ_shadow_color="@color/colorBlue"
             app:civ_shadow_radius="5dp" />
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_logo"
+            android:text="Name(User Name)"
+            android:textAlignment="center"
+            android:textColor="@color/colorGray"
+            android:textSize="20sp" />
+    </LinearLayout>
 </LinearLayout>
