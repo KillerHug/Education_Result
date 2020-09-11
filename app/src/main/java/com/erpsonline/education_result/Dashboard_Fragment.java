@@ -12,7 +12,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-public class Deskboard extends Fragment {
+public class Dashboard_Fragment extends Fragment {
     Button drawerOpen;
     DrawerLayout drawerLayout;
     @Override

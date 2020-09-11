@@ -51,8 +51,7 @@
             android:clickable="true"
             android:layout_gravity="bottom"
             android:background="@color/colorWhite"
-            android:orientation="vertical"
-            android:paddingLeft="15dp">
+            android:orientation="vertical">
             <Button
                 android:id="@+id/changeProfile"
                 android:layout_width="match_parent"

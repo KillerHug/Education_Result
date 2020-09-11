@@ -95,7 +95,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:passwordToggleEnabled="true"
-    android:hint="@string/enter_pass">
+    app:hintEnabled="false"
+    android:layout_marginTop="10dp"
+    >
             <EditText
                 android:id="@+id/signPass"
                 android:layout_width="match_parent"
@@ -105,7 +107,7 @@
                 android:drawableStart="@drawable/pass_focus"
                 android:drawablePadding="10dp"
                 android:focusable="true"
-
+                android:hint="@string/enter_pass"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 app:passwordToggleEnabled="true"

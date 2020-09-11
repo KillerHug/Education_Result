@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,8 +18,6 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.mikhaellopez.circularimageview.CircularImageView;
-
-import org.w3c.dom.Text;
 
 public class Fragment_container extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
@@ -51,26 +48,27 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
                 Intent intent = new Intent(Fragment_container.this, SignIn.class);
                 startActivity(intent);
                 finish();
-                logout.setBackgroundResource(R.color.colorGray);
+
                 Toast.makeText(Fragment_container.this, "Logout Successfully", Toast.LENGTH_SHORT).show();
             }
         });
         closeDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawerLayout.closeDrawer(GravityCompat.START);
+                changePassword.setBackgroundResource(R.color.colorGray);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Student_Change_Password()).addToBackStack(null).commit();
             }
         });
         username.setText(sessionManager.getUsername());
         Log.e("username", sessionManager.getUsername());
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new Deskboard()).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new Dashboard_Fragment()).addToBackStack(null).commit();
     }
 
     @Override
