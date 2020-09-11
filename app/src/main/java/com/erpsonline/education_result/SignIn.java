@@ -39,7 +39,10 @@ public class SignIn extends AppCompatActivity {
     String strUser, strPass;
     SessionManager sessionManager;
     User user;
-ConstraintLayout msgLayout;
+    ConstraintLayout msgLayout;
+    private long backPressedTime;
+    private Toast backToast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +52,11 @@ ConstraintLayout msgLayout;
         txtId = (EditText) findViewById(R.id.signId);
         txtPass = (EditText) findViewById(R.id.signPass);
         msg = (TextView) findViewById(R.id.errorMessage);
-        msgLayout=(ConstraintLayout)findViewById(R.id.successMSG);
+        msgLayout = (ConstraintLayout) findViewById(R.id.successMSG);
         SharedPreferences sharedPreferences = getSharedPreferences("MSG", MODE_PRIVATE);
         String msg = sharedPreferences.getString("pass_success", null);
         if (msg != null) {
-            SharedPreferences.Editor editor=sharedPreferences.edit();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.clear();
             editor.commit();
             msgLayout.setVisibility(View.VISIBLE);
@@ -82,10 +85,9 @@ ConstraintLayout msgLayout;
                 LoginData();
             }
         });
-        sessionManager=new SessionManager(this);
-        boolean id=sessionManager.getLogin();
-        if(id)
-        {
+        sessionManager = new SessionManager(this);
+        boolean id = sessionManager.getLogin();
+        if (id) {
             Intent intent = new Intent(SignIn.this, Fragment_container.class);
             startActivity(intent);
         }
@@ -99,13 +101,13 @@ ConstraintLayout msgLayout;
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Response",response);
+                Log.e("Response", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     String status = jsonObject.getString("success");
                     if (status.equals("verify")) {
                         sessionManager = new SessionManager(SignIn.this);
-                        user=new User(strUser);
+                        user = new User(strUser);
                         user.setUser_name(strUser);
                         sessionManager.saveSession(user);
                         sessionManager.setLogin(true);
@@ -115,8 +117,7 @@ ConstraintLayout msgLayout;
                         Log.e("Message", "Username or Password not matched");
                         msg.setVisibility(View.VISIBLE);
                         msg.setText("Username or Password not matched");
-                    }
-                    else {
+                    } else {
                         blankField();
                         Log.e("Message", "Not Login");
                     }
@@ -167,5 +168,20 @@ ConstraintLayout msgLayout;
     public void blankField() {
         txtId.setText("");
         txtPass.setText("");
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime+2000>System.currentTimeMillis())
+        {
+            backToast.cancel();
+            super.onBackPressed();
+        }
+        else
+        {
+            backToast=Toast.makeText(getBaseContext(),"Press back again to exit",Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+        backPressedTime=System.currentTimeMillis();
     }
 }

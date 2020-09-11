@@ -94,7 +94,8 @@
 <com.google.android.material.textfield.TextInputLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:passwordToggleEnabled="true">
+    app:passwordToggleEnabled="true"
+    android:hint="@string/enter_pass">
             <EditText
                 android:id="@+id/signPass"
                 android:layout_width="match_parent"
@@ -104,7 +105,7 @@
                 android:drawableStart="@drawable/pass_focus"
                 android:drawablePadding="10dp"
                 android:focusable="true"
-                android:hint="@string/enter_pass"
+
                 android:inputType="textPassword"
                 android:padding="10dp"
                 app:passwordToggleEnabled="true"

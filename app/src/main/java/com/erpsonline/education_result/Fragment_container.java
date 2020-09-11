@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +27,7 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
     NavigationView navigationView;
     CircularImageView imageView;
     TextView username;
-    Button logout, changePassword;
+    Button logout, changePassword,closeDrawer;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
@@ -41,6 +42,7 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
         imageView = (CircularImageView) findViewById(R.id.user_logo);
         View headerView = navigationView.getHeaderView(0);
         username = (TextView) headerView.findViewById(R.id.user_name);
+        closeDrawer = (Button) headerView.findViewById(R.id.drawerClose);
         final SessionManager sessionManager = new SessionManager(this);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,20 +50,27 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
                 sessionManager.removeSession();
                 Intent intent = new Intent(Fragment_container.this, SignIn.class);
                 startActivity(intent);
-                fileList();
+                finish();
+                logout.setBackgroundResource(R.color.colorGray);
                 Toast.makeText(Fragment_container.this, "Logout Successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+        closeDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawer(Gravity.START);
             }
         });
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawerLayout.closeDrawer(GravityCompat.START);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Student_Change_Password()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Student_Change_Password()).addToBackStack(null).commit();
             }
         });
         username.setText(sessionManager.getUsername());
         Log.e("username", sessionManager.getUsername());
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new Deskboard()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new Deskboard()).addToBackStack(null).commit();
     }
 
     @Override

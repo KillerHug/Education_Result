@@ -6,120 +6,143 @@
     android:orientation="vertical"
     android:background="@color/colorWhite">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-
-
+        android:layout_height="match_parent">
         <LinearLayout
-            android:id="@+id/password_section"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="20dp">
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/ic_baseline_lock_focus"
-                android:layout_gravity="center"/>
-            <TextView
-                android:id="@+id/textInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Change \nPassword"
-                android:textColor="@color/colorBlue"
-                android:textSize="20sp"
-                android:textAlignment="center"
-                android:transitionName="text_info" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint=""
-                app:passwordToggleEnabled="true">
-                <EditText
-                    android:id="@+id/oldPass"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/border_design"
-                    android:drawableStart="@drawable/pass_focus"
-                    android:drawablePadding="10dp"
-                    android:focusable="true"
-                    android:hint="@string/old_pass"
-                    android:inputType="textPassword"
-                    android:padding="10dp"
-                    app:passwordToggleEnabled="true"
-                    android:textColor="@color/colorBlue"
-                    android:textSize="15sp" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint=""
-                app:passwordToggleEnabled="true">
-                <EditText
-                    android:id="@+id/newPass"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/border_design"
-                    android:drawableStart="@drawable/pass_focus"
-                    android:drawablePadding="10dp"
-                    android:focusable="true"
-                    android:hint="@string/new_pass"
-                    android:inputType="textPassword"
-                    android:padding="10dp"
-                    app:passwordToggleEnabled="true"
-                    android:textColor="@color/colorBlue"
-                    android:textSize="15sp" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint=""
-                app:passwordToggleEnabled="true">
-                <EditText
-                    android:id="@+id/confirmPass"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/border_design"
-                    android:drawableStart="@drawable/pass_focus"
-                    android:drawablePadding="10dp"
-                    android:focusable="true"
-                    android:hint="@string/confirm_pass"
-                    android:inputType="textPassword"
-                    android:padding="10dp"
-                    app:passwordToggleEnabled="true"
-                    android:textColor="@color/colorBlue"
-                    android:textSize="15sp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
+            android:padding="5dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/pass_btn"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_gravity="left"
-                    android:background="@drawable/button"
-                    android:padding="10dp"
-                    android:text="Submit"
-                    android:textColor="#fff"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="10dp">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:drawableStart="@drawable/ic_baseline_menu_24"
+                        android:drawablePadding="10dp"
+                        android:paddingHorizontal="10dp"
+                        android:id="@+id/drawerOpen"/>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/password_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/ic_baseline_lock_focus"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:id="@+id/textInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Change \nPassword"
+                    android:textColor="@color/colorBlue"
                     android:textSize="20sp"
-                    android:textAllCaps="false"
-                    android:transitionName="next_button"
-                    />
+                    android:textAlignment="center"
+                    android:transitionName="text_info" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint=""
+                    app:passwordToggleEnabled="true">
+                    <EditText
+                        android:id="@+id/oldPass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/border_design"
+                        android:drawableStart="@drawable/pass_focus"
+                        android:drawablePadding="10dp"
+                        android:focusable="true"
+                        android:hint="@string/old_pass"
+                        android:inputType="textPassword"
+                        android:padding="10dp"
+                        app:passwordToggleEnabled="true"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint=""
+                    app:passwordToggleEnabled="true">
+                    <EditText
+                        android:id="@+id/newPass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/border_design"
+                        android:drawableStart="@drawable/pass_focus"
+                        android:drawablePadding="10dp"
+                        android:focusable="true"
+                        android:hint="@string/new_pass"
+                        android:inputType="textPassword"
+                        android:padding="10dp"
+                        app:passwordToggleEnabled="true"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint=""
+                    app:passwordToggleEnabled="true">
+                    <EditText
+                        android:id="@+id/confirmPass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/border_design"
+                        android:drawableStart="@drawable/pass_focus"
+                        android:drawablePadding="10dp"
+                        android:focusable="true"
+                        android:hint="@string/confirm_pass"
+                        android:inputType="textPassword"
+                        android:padding="10dp"
+                        app:passwordToggleEnabled="true"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/pass_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_gravity="left"
+                        android:background="@drawable/button"
+                        android:padding="10dp"
+                        android:text="Submit"
+                        android:textColor="#fff"
+                        android:textSize="20sp"
+                        android:textAllCaps="false"
+                        android:transitionName="next_button"
+                        />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 </LinearLayout>
