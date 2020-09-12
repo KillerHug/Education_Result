@@ -24,7 +24,7 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
     NavigationView navigationView;
     CircularImageView imageView;
     TextView username;
-    Button logout, changePassword,closeDrawer;
+    Button logout, changePassword, closeDrawer;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
@@ -32,46 +32,51 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_container);
-        logout = (Button) findViewById(R.id.logout);
-        changePassword = (Button) findViewById(R.id.changePassword);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this);
         imageView = (CircularImageView) findViewById(R.id.user_logo);
         View headerView = navigationView.getHeaderView(0);
         username = (TextView) headerView.findViewById(R.id.user_name);
         closeDrawer = (Button) headerView.findViewById(R.id.drawerClose);
         final SessionManager sessionManager = new SessionManager(this);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sessionManager.removeSession();
-                Intent intent = new Intent(Fragment_container.this, SignIn.class);
-                startActivity(intent);
-                finish();
-
-                Toast.makeText(Fragment_container.this, "Logout Successfully", Toast.LENGTH_SHORT).show();
-            }
-        });
         closeDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
-        changePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.closeDrawer(GravityCompat.START);
-                changePassword.setBackgroundResource(R.color.colorGray);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Student_Change_Password()).addToBackStack(null).commit();
-            }
-        });
-        username.setText(sessionManager.getName()+"("+sessionManager.getUsername()+")");
+        username.setText(sessionManager.getName() + "(" + sessionManager.getUsername() + ")");
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new Dashboard_Fragment()).addToBackStack(null).commit();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+
+        switch (item.getItemId())
+        {
+            case R.id.changeProfile:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                Log.e("Message","Change Profile");
+                break;
+            case R.id.changePassword:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                Log.e("Message","Change Password");
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Student_Change_Password()).addToBackStack(null).commit();
+                break;
+            case R.id.logout:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                Log.e("Message","logout");
+                SessionManager sessionManager=new SessionManager(this);
+                sessionManager.setLogin(false);
+                sessionManager.removeSession();
+                Intent intent = new Intent(Fragment_container.this, SignIn.class);
+                startActivity(intent);
+                finish();
+
+                Toast.makeText(Fragment_container.this, "Logout Successfully", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
     }
 }

@@ -44,47 +44,7 @@
         app:menu="@menu/navigation_menu"
         android:background="@color/colorWhite"
         app:itemTextColor="@color/colorBlue"
+        app:itemIconTint="@color/colorOrange"
         android:layout_gravity="start">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:layout_gravity="bottom"
-            android:background="@color/colorWhite"
-            android:orientation="vertical">
-            <Button
-                android:id="@+id/changeProfile"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:textAllCaps="false"
-                android:gravity="left|center_vertical"
-                android:drawableStart="@drawable/ic_baseline_person_24"
-                android:drawablePadding="15dp"
-                android:textColor="@color/colorBlue"
-                android:background="@android:color/transparent"
-                android:text="Change Profile"/>
-            <Button
-                android:id="@+id/changePassword"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:textAllCaps="false"
-                android:drawableStart="@drawable/ic_baseline_lock_orange"
-                android:drawablePadding="15dp"
-                android:gravity="left|center_vertical"
-                android:textColor="@color/colorBlue"
-                android:background="@android:color/transparent"
-                android:text="Change Password" />
-            <Button
-                android:id="@+id/logout"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:textAllCaps="false"
-                android:drawableStart="@drawable/ic_logout"
-                android:drawablePadding="15dp"
-                android:gravity="left|center_vertical"
-                android:textColor="@color/colorBlue"
-                android:background="@android:color/transparent"
-                android:text="Logout" />
-        </LinearLayout>
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>
