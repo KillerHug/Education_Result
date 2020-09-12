@@ -66,8 +66,7 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Student_Change_Password()).addToBackStack(null).commit();
             }
         });
-        username.setText(sessionManager.getUsername());
-        Log.e("username", sessionManager.getUsername());
+        username.setText(sessionManager.getName()+"("+sessionManager.getUsername()+")");
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new Dashboard_Fragment()).addToBackStack(null).commit();
     }
 

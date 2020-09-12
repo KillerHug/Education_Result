@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,12 +34,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SignIn extends AppCompatActivity {
-    Button btnSignUp, btnSignIn;
-    EditText txtId, txtPass;
-    TextView msg;
-    String strUser, strPass;
+    Button btnSignUp, btnSignIn,forgetBtn,openForget;
+    EditText txtId, txtPass,forgetNumber;
+    TextView msg,forgetMessage;
+    String strUser, strPass,forgetMobile;
     SessionManager sessionManager;
     User user;
+    LinearLayout forgetLayout;
     ConstraintLayout msgLayout;
     private long backPressedTime;
     private Toast backToast;
@@ -47,12 +49,17 @@ public class SignIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        forgetNumber=(EditText)findViewById(R.id.forgetNumber);
         btnSignUp = (Button) findViewById(R.id.goto_signup);
         btnSignIn = (Button) findViewById(R.id.signin_data);
         txtId = (EditText) findViewById(R.id.signId);
         txtPass = (EditText) findViewById(R.id.signPass);
         msg = (TextView) findViewById(R.id.errorMessage);
+        forgetMessage = (TextView) findViewById(R.id.forgetPassMSG);
         msgLayout = (ConstraintLayout) findViewById(R.id.successMSG);
+        forgetBtn=(Button)findViewById(R.id.forget_btn);
+        openForget=(Button)findViewById(R.id.open_forget);
+        forgetLayout=(LinearLayout)findViewById(R.id.forgetSection);
         SharedPreferences sharedPreferences = getSharedPreferences("MSG", MODE_PRIVATE);
         String msg = sharedPreferences.getString("pass_success", null);
         if (msg != null) {
@@ -91,6 +98,64 @@ public class SignIn extends AppCompatActivity {
             Intent intent = new Intent(SignIn.this, Fragment_container.class);
             startActivity(intent);
         }
+        openForget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                forgetLayout.setVisibility(View.VISIBLE);
+                forgetMessage.setVisibility(View.GONE);
+            }
+        });
+        forgetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendPassword();
+            }
+        });
+    }
+
+    private void sendPassword() {
+        forgetMobile = forgetNumber.getText().toString().trim();
+        String url = "http://hopeindia.biz/app/student.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("Response", response);
+                try {
+                    String mobile;
+                    JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("success");
+                    if (status.equals("verify")) {
+                        mobile= jsonObject.getString("mobile");
+                        forgetMessage.setVisibility(View.VISIBLE);
+                        forgetMessage.setText("Your password seccessfully send "+mobile);
+                        forgetLayout.setVisibility(View.GONE);
+                    } else if (status.equals("noMatch")) {
+                        forgetMessage.setVisibility(View.VISIBLE);
+                        forgetMessage.setText("Your User Id or Mobile no is not found");
+                        forgetLayout.setVisibility(View.GONE);
+                    } else {
+
+                    }
+                } catch (JSONException e) {
+                    Log.e("Message", e.getMessage());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Message", error.getMessage());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> param = new HashMap<String, String>();
+                param.put("action", "sendPassword");
+                param.put("mobile", forgetMobile);
+                return param;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
     private void LoginData() {
@@ -103,12 +168,15 @@ public class SignIn extends AppCompatActivity {
             public void onResponse(String response) {
                 Log.e("Response", response);
                 try {
+                    String user_name,name;
                     JSONObject jsonObject = new JSONObject(response);
                     String status = jsonObject.getString("success");
                     if (status.equals("verify")) {
+                        user_name = jsonObject.getString("user_name");
+                        name = jsonObject.getString("name");
                         sessionManager = new SessionManager(SignIn.this);
-                        user = new User(strUser);
-                        user.setUser_name(strUser);
+                        user = new User(user_name,name);
+                        user.setUser_name(user_name);
                         sessionManager.saveSession(user);
                         sessionManager.setLogin(true);
                         Intent intent = new Intent(SignIn.this, Fragment_container.class);

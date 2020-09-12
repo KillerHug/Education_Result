@@ -32,6 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
+                    android:paddingRight="10dp"
                     android:layout_gravity="end|center_vertical">
                     <ImageView
                         android:layout_width="40dp"
@@ -75,15 +76,27 @@
                     android:textColor="@color/colorOrange"
                     android:textSize="20sp"
                     android:textAlignment="center"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:transitionName="text_info" />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Successfully"
+                    android:textColor="#08804c"
+                    android:textSize="15sp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:id="@+id/changePassMSG"
+                    android:visibility="gone"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:id="@+id/errorMessage"
-                    android:gravity="left"
+                    android:gravity="center"
                     android:text="Some Error Occured"
+                    android:layout_marginBottom="10dp"
                     android:textColor="@color/colorRed"
                     android:visibility="gone"
                     android:textSize="15sp" />
@@ -153,19 +166,12 @@
                         android:textColor="@color/colorBlue"
                         android:textSize="15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
                     <Button
                         android:id="@+id/changePass"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_gravity="left"
+                        android:layout_marginTop="20dp"
                         android:background="@drawable/button"
                         android:padding="10dp"
                         android:text="Submit"
@@ -174,7 +180,6 @@
                         android:textAllCaps="false"
                         android:transitionName="next_button"
                         />
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

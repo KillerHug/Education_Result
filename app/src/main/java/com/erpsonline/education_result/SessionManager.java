@@ -17,6 +17,7 @@ public class SessionManager {
     public void saveSession(User user)
     {
         editor.putString("USER_NAME",user.getUser_name());
+        editor.putString("NAME",user.getName());
         editor.commit();
     }
     public void setLogin(boolean login)
@@ -31,6 +32,10 @@ public class SessionManager {
     public String getUsername()
     {
         return sharedPreferences.getString("USER_NAME",null);
+    }
+    public String getName()
+    {
+        return sharedPreferences.getString("NAME",null);
     }
     public void removeSession()
     {
