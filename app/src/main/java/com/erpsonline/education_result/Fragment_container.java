@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
@@ -22,6 +23,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -31,9 +39,14 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Fragment_container extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
@@ -155,6 +168,49 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
         byte[] imageByte=stream.toByteArray();
         encodeImage=android.util.Base64.encodeToString(imageByte, Base64.DEFAULT);
-        Log.e("Code",encodeImage);
+
+        final String imageAddress=encodeImage;
+        SessionManager sessionManager=new SessionManager(this);
+        final String user_name=sessionManager.getUsername();
+        String url = "http://hopeindia.biz/app/student.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("Response", response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("success");
+                    if (status.equals("verify")) {
+                        Toast.makeText(Fragment_container.this, "Success", Toast.LENGTH_SHORT).show();
+                    } else if (status.equals("noVerify")) {
+                        Toast.makeText(Fragment_container.this, "Not Success", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Fragment_container.this, "Unsuccessful", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(Fragment_container.this, "Message: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(Fragment_container.this, "Message: "+error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> param = new HashMap<String, String>();
+                param.put("action", "storeImage");
+                param.put("imageAddress", imageAddress);
+                param.put("user_name", user_name);
+                return param;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+    public void saveImage ()
+    {
+
     }
 }
