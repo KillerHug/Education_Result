@@ -53,8 +53,9 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
-        imageView = (CircularImageView) findViewById(R.id.user_logo);
         View headerView = navigationView.getHeaderView(0);
+        imageView = (CircularImageView) headerView.findViewById(R.id.user_logo);
+        imageView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
         username = (TextView) headerView.findViewById(R.id.user_name);
         closeDrawer = (Button) headerView.findViewById(R.id.drawerClose);
         imageChooser = (Button) headerView.findViewById(R.id.imageChooser);
@@ -141,6 +142,10 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+        }
+        else
+        {
+            Log.e("Message","Not Image Store");
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
