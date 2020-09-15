@@ -154,7 +154,14 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
-                imageView.setImageURI(resultUri);
+                try {
+                    InputStream inputStream=getApplicationContext().getContentResolver().openInputStream(resultUri);
+                    bitmap= BitmapFactory.decodeStream(inputStream);
+                    imageView.setImageBitmap(bitmap);
+                    imageStore(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
