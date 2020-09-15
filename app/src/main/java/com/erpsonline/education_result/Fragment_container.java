@@ -38,6 +38,8 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -128,6 +130,9 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
                         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                         intent.setType("image/*");
                         startActivityForResult(Intent.createChooser(intent, "Select Image"), 10);
+                        CropImage.activity()
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .start(Fragment_container.this);
                     }
 
                     @Override
@@ -143,6 +148,19 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                imageView.setImageURI(resultUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
+    }
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(data!=null)
         {
@@ -161,7 +179,7 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
             Log.e("Message","Not Image Store");
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
+    }*/
     public void imageStore(Bitmap bitmap)
     {
         ByteArrayOutputStream stream=new ByteArrayOutputStream();
