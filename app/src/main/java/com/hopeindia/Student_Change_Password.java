@@ -1,30 +1,36 @@
-package com.erpsonline.education_result;
+package com.hopeindia;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,24 +40,44 @@ import java.util.Map;
 
 public class Student_Change_Password extends Fragment {
     EditText oldPass,newPass,confirmPass;
-    Button changePassBtn, drawerOpen;
-    DrawerLayout drawerLayout;
-    TextView msg,changePassMSG;
+    Button changePassBtn;
+    ImageButton back;
+    TextView msg,changePassMSG,passError;
     String txtOld,txtNew,txtUserName;
+    NavigationView navigationView;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.student_change_pass,container,false);
         oldPass=view.findViewById(R.id.oldPass);
         newPass=view.findViewById(R.id.newPass);
         confirmPass=view.findViewById(R.id.confirmPass);
-        drawerOpen=view.findViewById(R.id.drawerOpen);
-        drawerLayout=getActivity().findViewById(R.id.drawerLayout);
         msg = view. findViewById(R.id.errorMessage);
         changePassMSG=view.findViewById(R.id.changePassMSG);
-        drawerOpen.setOnClickListener(new View.OnClickListener() {
+        back=view.findViewById(R.id.backTo);
+        navigationView=getActivity().findViewById(R.id.navigationView);
+        passError=view.findViewById(R.id.passError);
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.START);
+            public void onClick(View v) {
+                Fragment fragment = new Deskboard_Fragment();
+                navigationView.getMenu().getItem(0).setChecked(true);
+                FragmentTransaction transaction = getFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(
+                                R.anim.enter_left_to_right,
+                                R.anim.exit_left_to_right,
+                                R.anim.enter_right_to_left,
+                                R.anim.exit_right_to_left);
+                transaction.replace(R.id.fragment_container, fragment ); // give your fragment container id in first parameter
+                transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+                transaction.commit();
             }
         });
         changePassBtn=view.findViewById(R.id.changePass);
@@ -92,15 +118,15 @@ public class Student_Change_Password extends Fragment {
     }
     private boolean checkNewPass() {
         String checkString = newPass.getText().toString().trim();
-        String pattern="[0-9]+";
+        String pattern = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{6,}$";
         if (checkString.isEmpty()) {
             Toast.makeText(getContext(), "Field can not be Empty", Toast.LENGTH_SHORT).show();
             newPass.setBackgroundResource(R.drawable.edit_error);
             return false;
         }
-        else if(!checkString.matches(pattern))
-        {
-            Toast.makeText(getContext(), "You entered only numeric number.", Toast.LENGTH_SHORT).show();
+        else if(checkString.length()<4) {
+            passError.setText("Password minimum limit is 4 Character");
+            passError.setVisibility(View.VISIBLE);
             newPass.setBackgroundResource(R.drawable.edit_error);
             return false;
         }
@@ -108,14 +134,15 @@ public class Student_Change_Password extends Fragment {
     }
     private boolean checkConfirmPass() {
         String checkString = confirmPass.getText().toString().trim();
-        String pattern="[0-9]+";
+        String pattern = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{6,}$";
         if (checkString.isEmpty()) {
             Toast.makeText(getContext(), "Field can not be Empty", Toast.LENGTH_SHORT).show();
             confirmPass.setBackgroundResource(R.drawable.edit_error);
             return false;
         }
-        else if(!checkString.matches(pattern)) {
-            Toast.makeText(getContext(), "You entered only numeric number.", Toast.LENGTH_SHORT).show();
+        else if(checkString.length()<4) {
+            passError.setText("Password minimum limit is 4 Character");
+            passError.setVisibility(View.VISIBLE);
             confirmPass.setBackgroundResource(R.drawable.edit_error);
             return false;
         }
@@ -124,7 +151,7 @@ public class Student_Change_Password extends Fragment {
     private void changePassword() {
         txtOld = oldPass.getText().toString().trim();
         txtNew = newPass.getText().toString().trim();
-        String url = "http://hopeindia.biz/app/student.php";
+        String url = "https://hopeindia.biz/app/student.php";
         SessionManager sessionManager=new SessionManager(getContext());
         txtUserName=sessionManager.getUsername();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -137,6 +164,9 @@ public class Student_Change_Password extends Fragment {
                     String status = jsonObject.getString("success");
                     if (status.equals("verify")) {
                         blankField();
+                        navigationView.getMenu().getItem(0).setChecked(true);
+                        msg.setVisibility(View.GONE);
+                        passError.setVisibility(View.GONE);
                         changePassMSG.setVisibility(View.VISIBLE);
                         changePassMSG.setText("Your Password successfully changed");
                         new Handler().postDelayed(new Runnable() {
@@ -158,8 +188,23 @@ public class Student_Change_Password extends Fragment {
             }
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("Message", error.getMessage());
+            public void onErrorResponse(VolleyError volleyError) {
+                String message = null;
+                if (volleyError instanceof NetworkError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (volleyError instanceof ServerError) {
+                    message = "The server could not be found. Please try again after some time!!";
+                } else if (volleyError instanceof AuthFailureError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (volleyError instanceof ParseError) {
+                    message = "Parsing error! Please try again after some time!!";
+                } else if (volleyError instanceof NoConnectionError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (volleyError instanceof TimeoutError) {
+                    message = "Connection TimeOut! Please check your internet connection.";
+                }
+                Toast.makeText(getContext(), "Message: " + message, Toast.LENGTH_SHORT).show();
+                Log.e("Message", message);
             }
         }) {
             @Override
@@ -175,8 +220,7 @@ public class Student_Change_Password extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
-    public void blankField()
-    {
+    public void blankField() {
         oldPass.setText("");
         newPass.setText("");
         confirmPass.setText("");

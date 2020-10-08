@@ -1,7 +1,6 @@
-package com.erpsonline.education_result;
+package com.hopeindia;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 
 public class SessionManager {
@@ -18,6 +17,15 @@ public class SessionManager {
     {
         editor.putString("USER_NAME",user.getUser_name());
         editor.putString("NAME",user.getName());
+        editor.putString("PAID",user.getPaid());
+        editor.putString("EMAIL",user.getEmail());
+        editor.putString("ADDRESS",user.getAddress());
+        editor.commit();
+    }
+    public void saveEmail_Address(User user)
+    {
+        editor.putString("EMAIL",user.getEmail());
+        editor.putString("ADDRESS",user.getAddress());
         editor.commit();
     }
     public void setLogin(boolean login)
@@ -36,6 +44,18 @@ public class SessionManager {
     public String getName()
     {
         return sharedPreferences.getString("NAME",null);
+    }
+    public String getPaid()
+    {
+        return sharedPreferences.getString("PAID",null);
+    }
+    public String getEmail()
+    {
+        return sharedPreferences.getString("EMAIL",null);
+    }
+    public String getAddress()
+    {
+        return sharedPreferences.getString("ADDRESS",null);
     }
     public void removeSession()
     {

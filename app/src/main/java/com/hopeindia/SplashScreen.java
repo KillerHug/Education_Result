@@ -1,4 +1,4 @@
-package com.erpsonline.education_result;
+package com.hopeindia;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,11 +15,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class SplashScreen extends AppCompatActivity {
 
     LinearLayout logo;
     Button tryAgain;
+    private long backPressedTime;
+    private Toast backToast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +44,7 @@ public class SplashScreen extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent(SplashScreen.this, SignIn.class);
+                        Intent intent = new Intent(SplashScreen.this, LogIn_Activity.class);
                         startActivity(intent);
                         finish();
                     }
