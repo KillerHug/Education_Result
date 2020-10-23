@@ -16,6 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".WebView_Container"></activity>
+        <activity android:name=".Pay_Now" />
         <activity android:name=".LogIn_Activity" />
         <activity android:name=".Team_Login" />
         <activity
@@ -35,6 +37,7 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
+
         <uses-library
             android:name="com.apache.http.legacy"
             android:required="false" />

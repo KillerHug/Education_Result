@@ -156,6 +156,7 @@ public class Show_Topic extends Fragment {
                 Map<String, String> param = new HashMap<>();
                 param.put("action", "showTopic");
                 param.put("subject_id", subject_id);
+                param.put("user_name",new SessionManager(getContext()).getUsername());
                 return param;
             }
         };

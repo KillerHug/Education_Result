@@ -187,6 +187,7 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
         if (requestCode == ACCESS_FILE && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
             Uri FILE_URI = data.getData();
             CropImage.activity(FILE_URI)
+
                     .setAspectRatio(1,1)
                     .setActivityTitle("Crop Image")
                     .setCropMenuCropButtonTitle("Done")
@@ -287,6 +288,7 @@ public class Fragment_container extends AppCompatActivity implements NavigationV
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     String photoAddress = jsonObject.getString("photo");
+                    Log.e("Photo",photoAddress);
                     if (photoAddress.isEmpty()) {
                         imageView.setBackgroundResource(R.drawable.logo_boy);
                     }

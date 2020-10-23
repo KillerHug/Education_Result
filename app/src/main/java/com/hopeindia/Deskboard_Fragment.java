@@ -1,6 +1,7 @@
 package com.hopeindia;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -59,12 +61,14 @@ public class Deskboard_Fragment extends Fragment {
     CardView checkSubscription;
     String user_name;
     TextView packageName, packagePrice;
+    Button pay_now;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_deskboard, null);
         drawerLayout = getActivity().findViewById(R.id.drawerLayout);
         drawerOpen = view.findViewById(R.id.drawerOpen);
+        pay_now=(Button)view.findViewById(R.id.pay_now_btn);
         drawerOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +89,29 @@ public class Deskboard_Fragment extends Fragment {
                 transaction.commit();
             }
         });*/
+        pay_now.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Intent intent = new Intent(getContext(), Pay_Now.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("user_name",new SessionManager(getContext()).getUsername());
+                intent.putExtras(bundle);
+                getActivity().startActivity(intent);*/
+                Bundle args = new Bundle();
+                args.putString("user_name",new SessionManager(getContext()).getUsername());
+                AppCompatActivity activity=(AppCompatActivity)v.getContext();
+                Fragment myFragment = new WebView_Fragment();
+                myFragment.setArguments(args);
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(
+                                R.anim.enter_right_to_left,
+                                R.anim.exit_right_to_left,
+                                R.anim.enter_left_to_right,
+                                R.anim.exit_left_to_right)
+                        .replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+            }
+        });
         loader = view.findViewById(R.id.loading);
         loading = new ProgressDialog(getContext());
         sessionManager = new SessionManager(getContext());
@@ -100,6 +127,7 @@ public class Deskboard_Fragment extends Fragment {
             loader.setVisibility(View.GONE);
             checkSubscription.setVisibility(View.VISIBLE);
         }*/
+
         checkPaidStatus();
         return view;
     }
@@ -110,7 +138,7 @@ public class Deskboard_Fragment extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Response", response);
+                Log.e("Response Paid Status", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     String paidStatus = jsonObject.getString("paid_status");
@@ -165,7 +193,7 @@ public class Deskboard_Fragment extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Response", response);
+                Log.e("Response Package", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -176,7 +204,7 @@ public class Deskboard_Fragment extends Fragment {
                             String txtprice = jsonObject1.getString("price");
                             checkSubscription.setVisibility(View.VISIBLE);
                             packageName.setText(txtpackage);
-                            packagePrice.setText("Price: \n Rs. " + 625 + ".00");
+                            packagePrice.setText("Price: \n Rs. " + txtprice + ".00");
                         }
                     }
                 } catch (JSONException e) {
@@ -226,7 +254,7 @@ public class Deskboard_Fragment extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Response", response);
+                Log.e("Response Subject", response);
                 try {
                     //loading.dismiss();
                     loader.setVisibility(View.GONE);
